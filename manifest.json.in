@@ -1,7 +1,7 @@
 {
     "architecture": "armhf",
     "description": "Reddit browser for Ubuntu",
-    "framework": "ubuntu-sdk-15.04.3-qml",
+    "framework": "ubuntu-sdk-16.04",
     "hooks": {
         "ureadit": {
             "apparmor": "ureadit.apparmor",
