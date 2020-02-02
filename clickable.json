@@ -1,5 +1,4 @@
 {
-  "template": "custom",
-  "build": "cd .. && make all && cd build && click build ..",
+  "template": "pure-qml-cmake",
   "kill": "qmlscene"
 }
