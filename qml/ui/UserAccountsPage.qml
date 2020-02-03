@@ -5,19 +5,21 @@ import Ubuntu.Components.Popups 1.0
 
 Page {
     id: accountsPage
-    title: "User Accounts"
 
-    head.actions: [
-        Action {
-            id: addAccountAction
-            text: "Add Account"
-            iconName: 'new-contact'
-            onTriggered: {
-                PopupUtils.open(addAccountComponent)
+    header: PageHeader {
+        title: "User Accounts"
+        trailingActionBar.actions: [
+            Action {
+                id: addAccountAction
+                text: "Add Account"
+                iconName: 'new-contact'
+                onTriggered: {
+                    PopupUtils.open(addAccountComponent)
+                }
             }
-        }
+        ]
+    }
 
-    ]
     ListView {
         id: accountsList
         anchors.fill: parent

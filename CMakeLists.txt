@@ -78,3 +78,24 @@ file(GLOB_RECURSE PROJECT_SRC_FILES
 )
 
 add_custom_target(${PROJECT_NAME}_FILES ALL SOURCES ${PROJECT_SRC_FILES})
+
+# Generate manifest.js for about page
+set(MANIFEST_JSON_FILE ${CMAKE_SOURCE_DIR}/manifest.json.in)
+set(MANIFEST_JS_FILE ${CMAKE_CURRENT_BINARY_DIR}/manifest.js)
+string(TIMESTAMP CURDATE UTC)
+
+add_custom_command(
+	OUTPUT ${MANIFEST_JS_FILE}
+    COMMAND echo "var appData = " > ${MANIFEST_JS_FILE}
+    COMMAND cat ${MANIFEST_JSON_FILE} >> manifest.js
+    COMMAND echo "var releaseDate = '${CURDATE}';" >> manifest.js
+    DEPENDS ${MANIFEST_JSON_FILE}
+    VERBATIM
+)
+
+add_custom_target(
+    GenerateManifestJS ALL
+    DEPENDS ${MANIFEST_JS_FILE}
+)
+
+install(FILES ${MANIFEST_JS_FILE} DESTINATION /qml)
