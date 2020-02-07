@@ -85,7 +85,7 @@ MainView {
         id: mainStack
         anchors {
                  fill: parent
-                 topMargin: units.gu(10)
+                 //topMargin: units.gu(10)
                 }
 
         Keys.onPressed: { if (mainStack.depth > 1 && event.key == Qt.Key_Escape) pop(); }
@@ -98,8 +98,8 @@ MainView {
         id: frontpage
         subreddit: ''
         StateSaver.properties: "subreddit, lastPageAfter"
-        visible: false
-        autoLoad: false
+        //visible: false
+        //autoLoad: false
     }
 
     function checkForMessages() {

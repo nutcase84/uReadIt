@@ -7,7 +7,9 @@ Page {
     id: accountsPage
 
     header: PageHeader {
+        id: pageHeader
         title: "User Accounts"
+        anchors.top: parent.top
         trailingActionBar.actions: [
             Action {
                 id: addAccountAction
@@ -22,6 +24,7 @@ Page {
 
     ListView {
         id: accountsList
+        anchors.top: pageHeader.bottom
         anchors.fill: parent
 
         model: uReadIt.qreddit.getUsers()
