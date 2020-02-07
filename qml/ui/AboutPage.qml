@@ -1,14 +1,24 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.0 as ListItems
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../manifest.js" as Manifest
 
 Page {
     id: aboutPage
-    title: i18n.tr("About")
+
+    header: PageHeader {
+        id: pageHeader
+        title: i18n.tr("About")
+    }
 
     Flickable {
-        anchors.fill: parent
+        anchors {
+            top: pageHeader.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            topMargin: units.gu(2)
+        }
         contentHeight: detailsList.height
 
         Column {

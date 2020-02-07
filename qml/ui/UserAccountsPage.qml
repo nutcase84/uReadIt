@@ -24,8 +24,12 @@ Page {
 
     ListView {
         id: accountsList
-        anchors.top: pageHeader.bottom
-        anchors.fill: parent
+        anchors {
+            top: pageHeader.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
 
         model: uReadIt.qreddit.getUsers()
 
