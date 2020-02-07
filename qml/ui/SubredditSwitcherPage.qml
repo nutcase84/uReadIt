@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.0 as ListItems
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../components"
 import "../models/QReddit"
 import "../models/QReddit/QReddit.js" as QReddit
@@ -8,61 +8,54 @@ import "../models/QReddit/QReddit.js" as QReddit
 Page {
     id: subredditSwitcherPage
 
-    title: "Frontpage"
-    property var subreddit_sources: ["subreddits_default", "subreddits_search", "subreddits_mine subscriber"]
-    head.sections {
-        model: uReadIt.qreddit.notifier.isLoggedIn ? ["Defaults", "Search", "My Subscriptions"] : ["Defaults", "Search"]
-        selectedIndex: uReadIt.qreddit.notifier.isLoggedIn ? 2 : 0
-        onSelectedIndexChanged: {
-            //subredditsList.subredditSource = subreddit_sources[selectedIndex]
+    header: PageHeader {
+        id: pageHeader
+        contents: TextField {
+            id: subredditField
+            placeholderText: "Frontpage"
+            anchors.centerIn: parent
+            width: parent.width - units.gu(2)
+            text: frontpage.subreddit
+            inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+            onAccepted: confirmChangeAction.triggered(subredditField)
+            onTextChanged: {
+                subredditsList.subredditSearch = text;
+            }
+        }
+        leadingActionBar.actions: Action {
+            id: cancelAction
+            iconName: "close"
+            onTriggered: {
+                mainStack.pop()
+            }
+        }
+        extension: Sections {
+            actions: [
+                Action {
+                    text: "Defaults"
+                    onTriggered: subredditsList.subredditSource = "subreddits_default"
+                },
+                Action {
+                    text: "Search"
+                    onTriggered: subredditsList.subredditSource = "subreddits_search"
+                },
+                Action {
+                    text: "My Subscriptions"
+                    onTriggered: subredditsList.subredditSource = "subreddits_mine subscriber"
+                    visible: uReadIt.qreddit.notifier.isLoggedIn
+                }
+            ]
         }
     }
 
-    state: "change_subreddit"
-    states: [
-        PageHeadState {
-            id: changeState
-            name: "change_subreddit"
-            head: subredditSwitcherPage.head
-            backAction: Action {
-                id: cancelChangeAction
-                text: "back"
-                iconName: "close"
-                onTriggered: {
-                    subredditField.text = subreddit
-                    mainStack.pop()
-                }
-            }
-            actions: [
-                Action {
-                    id: confirmChangeAction
-                    text: "confirm"
-                    iconName: "ok"
-                    onTriggered: {
-                        postsList.clear();
-                        subreddit = subredditField.text
-                        mainStack.pop()
-                    }
-                }
-            ]
-            contents: TextField {
-                id: subredditField
-                placeholderText: "Frontpage"
-                width: parent.width - units.gu(2)
-                text: subreddit
-                visible : true
-                inputMethodHints: Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
-                onAccepted: confirmChangeAction.triggered(subredditField)
-                onTextChanged: {
-                    subredditsList.subredditSearch = text;
-                }
-            }
-        }
-    ]
-
     UbuntuListView {
         id: subredditsList
-        anchors.fill: parent
+        anchors {
+            top: pageHeader.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
         property string subredditSource: ""
         property string subredditSearch: subredditField.text
 
@@ -93,10 +86,10 @@ Page {
         delegate: ListItems.Standard {
             text: modelData.data['display_name']
             onClicked: {
-                postsList.clear();
-                subredditField.text = modelData.data['display_name']
-                subreddit = modelData.data['display_name']
-                frontpage.state = "default"
+                //frontpage.postsList.clear();
+                //subredditField.text = modelData.data['display_name']
+                frontpage.subreddit = modelData.data['display_name']
+                mainStack.pop()
             }
         }
     }

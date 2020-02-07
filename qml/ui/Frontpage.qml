@@ -1,6 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Components.ListItems 1.0 as ListItems
+import Ubuntu.Components.ListItems 1.3 as ListItems
 import "../components"
 import "../models/QReddit"
 import "../models/QReddit/QReddit.js" as QReddit
@@ -153,7 +153,7 @@ Page {
         onRefresh: frontpage.refresh()
         target: postsList
     }
-    MultiColumnListView {
+    ListView {
         id: postsList
         anchors {
             top: pageHeader.bottom
@@ -164,12 +164,12 @@ Page {
         }
         width: parent.width
 
-        columns: parent.width > units.gu(50) ? parent.width / units.gu(50) : 1
+        //columns: parent.width > units.gu(50) ? parent.width / units.gu(50) : 1
 
-        rowSpacing: units.gu(1)
-        colSpacing: units.gu(1)
+        //rowSpacing: units.gu(1)
+        //colSpacing: units.gu(1)
 
-        balanced: true
+        //balanced: true
 
         Behavior on contentY {
                 SmoothedAnimation { duration: 500 }
