@@ -11,23 +11,23 @@ Page {
     property var children
     property string link
 
-    title: postObj.data.title
+    header: PageHeader {
+        id: pageHeader
+        contents: Label {
+            text: postObj.data.title
+            height: parent ? parent.height : 0
+            width: parent ? parent.width : 0
+            verticalAlignment: Text.AlignVCenter
 
-    head.contents: Label {
-        text: title
-        height: parent ? parent.height : 0
-        width: parent ? parent.width : 0
-        verticalAlignment: Text.AlignVCenter
+            fontSize: "x-large"
+            fontSizeMode: Text.Fit
 
-        fontSize: "x-large"
-        fontSizeMode: Text.Fit
-
-        maximumLineCount: 3
-        minimumPointSize: 8
-        elide: Text.Right
-        wrapMode: Text.WordWrap
+            maximumLineCount: 3
+            minimumPointSize: 8
+            elide: Text.Right
+            wrapMode: Text.WordWrap
+        }
     }
-
 
     ListView {
         id: commentsList

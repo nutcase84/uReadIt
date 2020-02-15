@@ -10,36 +10,35 @@ Page {
     id: commentsPage
     property var postObj
 
-    title: postObj.data.title
+    header: PageHeader {
+        id: pageHeader
+        contents: Label {
+            text: postObj.data.title
+            height: parent.height
+            width: parent.width
+            verticalAlignment: Text.AlignVCenter
 
-    head.contents: Label {
-        text: title
-        height: parent.height
-        width: parent.width
-        verticalAlignment: Text.AlignVCenter
+            fontSize: "x-large"
+            fontSizeMode: Text.Fit
 
-        fontSize: "x-large"
-        fontSizeMode: Text.Fit
-
-        maximumLineCount: 3
-        minimumPointSize: 8
-        elide: Text.Right
-        wrapMode: Text.WordWrap
-    }
-
-    head.actions: [
-        Action {
-            id: replyAction
-            text: "Reply"
-            iconName: "new-message"
-            enabled: uReadIt.qreddit.notifier.isLoggedIn
-            onTriggered: {
-                var postReplyObj = new QReddit.PostObj(uReadIt.qreddit, postObj)
-                mainStack.push(Qt.resolvedUrl("PostMessagePage.qml"), {'replyToObj': postReplyObj})
-            }
+            maximumLineCount: 3
+            minimumPointSize: 8
+            elide: Text.Right
+            wrapMode: Text.WordWrap
         }
-
-    ]
+        trailingActionBar.actions: [
+            Action {
+                id: replyAction
+                text: "Reply"
+                iconName: "new-message"
+                enabled: uReadIt.qreddit.notifier.isLoggedIn
+                onTriggered: {
+                    var postReplyObj = new QReddit.PostObj(uReadIt.qreddit, postObj)
+                    mainStack.push(Qt.resolvedUrl("PostMessagePage.qml"), {'replyToObj': postReplyObj})
+                }
+            }
+        ]
+    }
 
     Keys.onPressed: {
         if (event.key == Qt.Key_Home) { commentsList.contentY = 0; return; }
@@ -62,7 +61,12 @@ Page {
 
     UbuntuListView {
         id: commentsList
-        anchors.fill: parent
+        anchors {
+            top: pageHeader.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
 
         Behavior on contentY {
                 SmoothedAnimation { duration: 500 }
